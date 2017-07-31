@@ -3,4 +3,4 @@ version: 1.0-a1
 author: Space995
 
 description: Adds the player-invisbility WorldGuard flag. Works with WorldGuard 6.2+.
-main: io.github.space995.player_invisibility_flag.PlayerInvisibilityFlagPlugin
+main: io.github.space995.player_invisibility_flag.PlayerInvisibilityFlag_Plugin
