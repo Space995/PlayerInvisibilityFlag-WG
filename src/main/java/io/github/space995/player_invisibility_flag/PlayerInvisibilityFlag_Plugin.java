@@ -47,6 +47,7 @@ public final class PlayerInvisibilityFlag_Plugin extends JavaPlugin
         sessionManager.registerHandler(PlayerInvisibilityHandler.FACTORY, null);
 
         getLogger().info("OK: Registered 'player-invisibility' handler.");
-        getLogger().info("FINE: All should work well. Please report issues on github.com/Space995/PlayerInvisibilityFlag-WG/issues");
+        getLogger().info("FINE: All should work well.");
+        getLogger().info("TIP: Please report issues on github.com/Space995/PlayerInvisibilityFlag-WG/issues");
     }
 }
