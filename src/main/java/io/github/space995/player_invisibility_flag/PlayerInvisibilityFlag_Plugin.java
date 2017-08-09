@@ -6,12 +6,13 @@ import com.sk89q.worldguard.protection.flags.BooleanFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.session.SessionManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PlayerInvisibilityFlag_Plugin extends JavaPlugin
 {
     // BooleanFlag with the name "player-invisibility"
-    public static final Flag PLAYER_INVISIBILITY_FLAG = new BooleanFlag("player-invisibility");
+    static final Flag<Boolean> PLAYER_INVISIBILITY_FLAG = new BooleanFlag("player-invisibility");
 
     @Override
     public void onLoad()
@@ -35,5 +36,17 @@ public final class PlayerInvisibilityFlag_Plugin extends JavaPlugin
             getLogger().info("FATAL-ERROR: Some other plugin registered a flag by the name 'player-invisibility'.");
             getLogger().info("WARNING: This could cause issues with saved flags in region files!");
         }
+    }
+
+    @Override
+    public void onEnable()
+    {
+        final WorldGuardPlugin worldGuardPlugin = WGBukkit.getPlugin();
+        final SessionManager sessionManager = worldGuardPlugin.getSessionManager();
+
+        sessionManager.registerHandler(PlayerInvisibilityHandler.FACTORY, null);
+
+        getLogger().info("OK: Registered 'player-invisibility' handler.");
+        getLogger().info("FINE: All should work well. Please report issues on github.com/Space995/PlayerInvisibilityFlag-WG/issues");
     }
 }
