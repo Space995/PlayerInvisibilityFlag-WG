@@ -8,7 +8,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PlayerInvisibilityFlag_Plugin extends JavaPlugin
+public final class PlayerInvisibilityFlag_Plugin extends JavaPlugin
 {
     // BooleanFlag with the name "player-invisibility"
     public static final Flag PLAYER_INVISIBILITY_FLAG = new BooleanFlag("player-invisibility");
