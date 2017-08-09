@@ -1,5 +1,5 @@
 group 'io.github.space995'
-version '1.0-b2'
+version '1.0-b3'
 
 apply plugin: 'java'
 
