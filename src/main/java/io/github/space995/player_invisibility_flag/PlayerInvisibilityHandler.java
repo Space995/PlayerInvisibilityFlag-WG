@@ -12,10 +12,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-
 final class PlayerInvisibilityHandler extends FlagValueChangeHandler<Boolean>
 {
     static final Factory FACTORY = new Factory();
@@ -36,51 +32,22 @@ final class PlayerInvisibilityHandler extends FlagValueChangeHandler<Boolean>
         super(session, PlayerInvisibilityFlag_Plugin.PLAYER_INVISIBILITY_FLAG);
     }
 
-    private static void changeVisibility(@NotNull Player targetPlayer, boolean visible) throws NullPointerException
+    private static void changeVisibility(@NotNull final Player targetPlayer, boolean setVisible)
     {
-        final Method setVisibility;
-
-        try
+        for (final Player player : Bukkit.getOnlinePlayers())
         {
-            if (visible)
+            if (setVisible)
             {
-                setVisibility = Player.class.getDeclaredMethod("showPlayer", Player.class);
+                player.showPlayer(targetPlayer);
             }
             else
             {
-                setVisibility = Player.class.getDeclaredMethod("hidePlayer", Player.class);
+                player.hidePlayer(targetPlayer);
             }
-
-            final Collection<? extends Player> otherPlayers = Bukkit.getServer().getOnlinePlayers();
-
-            try
-            {
-                otherPlayers.remove(targetPlayer);
-            }
-            catch (NullPointerException e)
-            {
-                throw new NullPointerException("Can't change visibility on a null Player");
-            }
-
-            for (Player otherPlayer : otherPlayers)
-            {
-                try
-                {
-                    setVisibility.invoke(otherPlayer, targetPlayer);
-                }
-                catch (IllegalAccessException | InvocationTargetException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-        catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
         }
     }
 
-    private void updateVisibility(@NotNull Player targetPlayer, @Nullable Boolean newValue, @Nullable Boolean lastvalue, @NotNull final World world)
+    private void updateVisibility(@NotNull final Player targetPlayer, @Nullable final Boolean newValue, @Nullable final Boolean lastvalue, @NotNull final World world)
     {
         if (!getSession().getManager().hasBypass(targetPlayer, world) && newValue != null)
         {
@@ -115,4 +82,39 @@ final class PlayerInvisibilityHandler extends FlagValueChangeHandler<Boolean>
         updateVisibility(targetPlayer, null, lastValue, targetPlayer.getWorld());
         return true;
     }
+
+    /*
+    private static void changeVisibility(@NotNull final Player targetPlayer, boolean setVisible)
+    {
+        final Method setVisibility;
+
+        try
+        {
+            if (setVisible)
+            {
+                setVisibility = Player.class.getDeclaredMethod("showPlayer", Player.class);
+            }
+            else
+            {
+                setVisibility = Player.class.getDeclaredMethod("hidePlayer", Player.class);
+            }
+
+            try
+            {
+                for (final Player player : Bukkit.getOnlinePlayers())
+                {
+                    setVisibility.invoke(player, targetPlayer);
+                }
+            }
+            catch (IllegalAccessException | InvocationTargetException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    */
 }
